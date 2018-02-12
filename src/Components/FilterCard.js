@@ -29,7 +29,7 @@ const FilterCard = (props) =>
         />
     </div>
     <div className="col-xs-3">
-        <Button icon="glyphicon glyphicon-remove" onClick={() => props.deleteFilters(props.id)}/>
+        <Button icon="glyphicon glyphicon-remove" onClick={() => props.deleteFilters(props.keyValue)}/>
     </div>
   </div>;
 

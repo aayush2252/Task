@@ -65,7 +65,8 @@ class EventComponent extends Component {
   render() {
     
     const funnelId = this.props.data;
-    const filterArray = funnelId.length > 0 ? funnelId[this.props.id].filterArray : [];
+    console.log(funnelId, this.props.keyValue, this.props.id, 'funnelId');
+    const filterArray = funnelId.length > 0 ? funnelId[this.props.keyValue].filterArray : [];
     const mapArray = filterArray.length >= 0 ? filterArray : [];
     
     return(
@@ -80,7 +81,7 @@ class EventComponent extends Component {
           <div style={{marginLeft: '10%'}}>
             {mapArray.map((e, id) =>
               <FilterCard
-                key={id} id={id} save={this.saveValues}
+                key={id} keyValue={id} id={e.id} save={this.saveValues}
                 filterValue1={this.filterValue1}
                 filterValue2={this.filterValue2}
                 filterValue3={this.filterValue3}

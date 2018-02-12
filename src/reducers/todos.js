@@ -46,6 +46,7 @@ export default function todos(state = initialState, action) {
       };
   
     case DELETE_FILTERS:
+      console.log(action);
       const item = state.data.map(d => {
         if (d.id === action.cardId) {
           return {
@@ -56,7 +57,7 @@ export default function todos(state = initialState, action) {
           return d
         }
       });
-  
+      console.log('delete item', item);
       return {
         ...state,
         data: item
