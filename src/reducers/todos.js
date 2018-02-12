@@ -7,74 +7,99 @@ import {
   FILTERS_VALUE
 } from '../Constants/ActionTypes'
 
-const initialState = [
-  {
-    id: 0,
-    filterArray: []
-  }
-]
+const initialState = {
+  data: []
+}
 
 export default function todos(state = initialState, action) {
   switch (action.type) {
+  
     case ADD_EVENT:
-      console.log(state.length, "state");
-    {
-      if (state.length > 0) {
-        return [
-          ...state,
-          {
-            id: state[state.length - 1].id + 1,
-            filterArray: []
-          }
-        ];
-      }
-      return [
+      const {data} = state;
+      const id = data.length;
+      data.push({
+        id,
+        text: '',
+        filterArray: []
+      });
+      return {
         ...state,
-        {
-          id: 0,
-          filterArray: []
-        }
-      ]
-    }
+        data
+      }
+      
     case DELETE_EVENT:
-      console.log("inside delete event", state, action.id);
-      return state.filter(todo =>
-        todo.id !== action.id
-      );
+      return {
+        ...state,
+        data: state.data.filter(d => d.id !== action.id)
+      }
+  
     case ADD_FILTERS:
-      const value1 = '';
-      const value2 = '';
-      const value3 = '';
-      const id = 0;
-      return state.map(add =>
-        add.id === action.id ?
-          {
-            id: action.id,
-            filterArray: add.filterArray.concat([{id: add.filterArray.length, value1, value2, value3}])
-          }
-          :
-          add
-      );
+      const {filterArray} = state.data[action.id];
+      const filters = filterArray;
+      const filterId = filterArray.length;
+      
+      filters.push({
+        filterId,
+      });
+      return {
+        ...state,
+      };
+  
     case DELETE_FILTERS:
-      return state.map(remove =>
-        remove.id === action.cardId ?
-          {
-            id: remove.id,
-            filterArray: remove.filterArray.filter(val => val.id !== action.id)
+      const item = state.data.map(d => {
+        if (d.id === action.cardId) {
+          return {
+            ...d,
+            filterArray: d.filterArray.filter(k => k.filterId !== action.id)
           }
-          :
-          remove
-      )
+        } else {
+          return d
+        }
+      });
+  
+      return {
+        ...state,
+        data: item
+      };
+      
     case ADD_EVENT_VALUE:
-      console.log("add event value", action.value);
+      const eventValue = state.data.map(d => {
+        if (d.id === action.id) {
+          return {
+            ...d,
+            text: action.value
+          }
+        } else {
+          return d
+        }
+      });
+      return {
+        ...state,
+        data: eventValue
+      };
+    
     case FILTERS_VALUE:
-      console.log("add filter values", action.args, action.id);
       if (action.args.value1 !== "" && action.args.value2 !== "" && action.args.value3 !== "") {
-        return
+        const filterValues = state.data.map(d => {
+            if (d.id === action.cardId) {
+              d.filterArray[action.id].text1 = action.args.value1;
+              d.filterArray[action.id].text2 = action.args.value2;
+              d.filterArray[action.id].text3 = action.args.value3;
+              return {
+                ...d
+              }
+            }
+            return {
+              ...d
+            }
+          }
+        );
+        return {
+          ...state,
+          data: filterValues
+        };
       }
       return state;
-    
-    
     default:
       return state
   }
