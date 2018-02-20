@@ -38,7 +38,7 @@ class EventComponent extends Component {
   };
   
   deleteFilters = (id) => {
-    this.props.deleteFilter(id, this.props.keyValue);
+    this.props.deleteFilter(id, this.props.id);
   };
   
   filterValue1 = (e) => {
