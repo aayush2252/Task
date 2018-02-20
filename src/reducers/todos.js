@@ -9,14 +9,20 @@ import {
 
 const initialState = {
   data: []
-}
+};
 
 export default function todos(state = initialState, action) {
   switch (action.type) {
   
     case ADD_EVENT:
       const {data} = state;
-      const id = data.length;
+      let prevId = 0;
+      if (data.length === 0) {
+        prevId = -1;
+      } else if (data.length > 0) {
+        prevId = data[data.length - 1].id;
+      }
+      const id = prevId + 1;
       data.push({
         id,
         text: '',
@@ -25,18 +31,25 @@ export default function todos(state = initialState, action) {
       return {
         ...state,
         data
-      }
+      };
       
     case DELETE_EVENT:
       return {
         ...state,
         data: state.data.filter(d => d.id !== action.id)
-      }
+      };
   
     case ADD_FILTERS:
+      // console.log("action in add filter", action);
       const {filterArray} = state.data[action.id];
       const filters = filterArray;
-      const filterId = filterArray.length;
+      let prevFilterId = 0;
+      if (filterArray.length === 0) {
+        prevFilterId = -1;
+      } else if (filterArray.length > 0) {
+        prevFilterId = filterArray[filterArray.length - 1].filterId;
+      }
+      const filterId = prevFilterId + 1;
       
       filters.push({
         filterId,
@@ -46,7 +59,7 @@ export default function todos(state = initialState, action) {
       };
   
     case DELETE_FILTERS:
-      console.log(action);
+      // console.log(action, "delete filter");
       const item = state.data.map(d => {
         if (d.id === action.cardId) {
           return {
@@ -57,7 +70,7 @@ export default function todos(state = initialState, action) {
           return d
         }
       });
-      console.log('delete item', item);
+      // console.log('delete item', item);
       return {
         ...state,
         data: item
@@ -80,6 +93,7 @@ export default function todos(state = initialState, action) {
       };
     
     case FILTERS_VALUE:
+      // console.log("action in filter value", action);
       if (action.args.value1 !== "" && action.args.value2 !== "" && action.args.value3 !== "") {
         const filterValues = state.data.map(d => {
             if (d.id === action.cardId) {

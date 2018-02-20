@@ -30,7 +30,7 @@ class EventComponent extends Component {
   };
   
   addFilterCard = () => {
-    this.props.addFilter(this.props.id);
+    this.props.addFilter(this.props.keyValue);
   };
   
   deleteFilterCard = () => {
@@ -38,7 +38,7 @@ class EventComponent extends Component {
   };
   
   deleteFilters = (id) => {
-    this.props.deleteFilter(id, this.props.id);
+    this.props.deleteFilter(id, this.props.keyValue);
   };
   
   filterValue1 = (e) => {
@@ -63,9 +63,8 @@ class EventComponent extends Component {
   };
   
   render() {
-    
     const funnelId = this.props.data;
-    console.log(funnelId, this.props.keyValue, this.props.id, 'funnelId');
+    // console.log(funnelId, "arrayValue:", this.props.keyValue, "uni id", this.props.id, 'funnelId');
     const filterArray = funnelId.length > 0 ? funnelId[this.props.keyValue].filterArray : [];
     const mapArray = filterArray.length >= 0 ? filterArray : [];
     
@@ -80,8 +79,8 @@ class EventComponent extends Component {
           </div>
           <div style={{marginLeft: '10%'}}>
             {mapArray.map((e, id) =>
-              <FilterCard
-                key={id} keyValue={id} id={e.id} save={this.saveValues}
+                <FilterCard
+                  key={e.filterId} keyValue={e.filterId} id={e.filterId} save={this.saveValues}
                 filterValue1={this.filterValue1}
                 filterValue2={this.filterValue2}
                 filterValue3={this.filterValue3}

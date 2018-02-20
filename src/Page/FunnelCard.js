@@ -15,7 +15,7 @@ class FunnelCard extends Component{
   
   render() {
     const {todos, actions} = this.props;
-    console.log(todos.data);
+    // console.log(todos.data);
     if (this.state.getJson) {
       return (
         <pre>{JSON.stringify(todos, null, 2)}</pre>
@@ -26,7 +26,7 @@ class FunnelCard extends Component{
         <button onClick={() => actions.addEvent()}>Add Funnel</button>
         {todos.data.map((e, id) =>
           <EventComponent
-            key={id} id={e.id}
+            key={e.id} id={e.id}
             keyValue={id}
             addFilter={actions.addFilters}
             filterValues={actions.filtersValue}
@@ -43,13 +43,6 @@ class FunnelCard extends Component{
     )
   }
 }
-
-// FunnelCard.propTypes = {
-//   todos: PropTypes.shape({
-//     data: PropTypes.arrayOf().isRequired
-//   }).isRequired,
-//   actions: PropTypes.object.isRequired
-// };
 
 const mapStateToProps = state => {
   const {todos} = state;
